@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Details</title>
+    <style>
+        /* Reuse the CSS from the provided code */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            overflow-y: hidden;
+        }
+
+        body {
+            overflow-x: hidden;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #1a75ff;
+            border-radius: 4px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            width: 100%;
+            height: 60px;
+            background-color: #1a75ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-title {
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-bar {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            width: 200px;
+            font-size: 14px;
+        }
+
+        .profile-circle {
+            width: 40px;
+            height: 40px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .profile-circle:hover {
+            border: 1px solid white;
+            font-size: 20px;
+        }
+
+        /* Content Styles */
+        .container {
+            padding: 20px;
+            background-color: #F1F5F9;
+        }
+
+        .internship-details {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .company-overview {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .company-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .company-info {
+            flex: 1;
+        }
+
+        .company-name {
+            font-size: 25px;
+            font-weight: bold;
+            color: #1a75ff;
+            margin-bottom: 5px;
+        }
+
+        .company-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .company-website {
+            font-size: 14px;
+            color: #1a75ff;
+            text-decoration: none;
+        }
+
+        .company-website:hover {
+            text-decoration: underline;
+        }
+
+        .position {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .stipend {
+            font-size: 15px;
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+
+        .details {
+            font-size: 15px;
+            color: #666;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .requirements {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .skills {
+            margin-bottom: 20px;
+        }
+
+        .skills h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .skills ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skills li {
+            background: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .application-deadline {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .apply-button, .save-button, .share-button {
+            background-color: #1a75ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .save-button {
+            background-color: #4CAF50;
+        }
+
+        .share-button {
+            background-color: #666;
+        }
+
+        .apply-button:hover, .save-button:hover, .share-button:hover {
+            opacity: 0.9;
+        }
+
+        .similar-internships {
+            margin-top: 30px;
+        }
+
+        .similar-internships h2 {
+            font-size: 20px;
+            color: #1a75ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 10px;
+            background-color: #D1D5DB;
+            border-radius: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #1a75ff #f0f0f0;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: #1a75ff;
+            border-radius: 4px;
+        }
+
+        .internship-card {
+            min-width: 300px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .internship-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .company-name {
+            font-size: 25px;
+            font-weight: bold;
+            color: #1a75ff;
+            margin-bottom: 10px;
+        }
+
+        .position {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .stipend {
+            font-size: 15px;
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+
+        .details {
+            font-size: 15px;
+            color: #666;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-title">Compass <span style="font-size: small;">Navigate Your Future</span> </div>
+        <div class="navbar-right">
+            <input type="search" placeholder="Search internships..." class="search-bar">
+            <a href="#" class="profile-circle">D</a>
+        </div>
+    </nav>
+
+    <!-- Internship Details -->
+    <div class="container">
+        <div class="internship-details">
+            <!-- Company Overview -->
+            <div class="company-overview">
+                <!-- <img src="https://via.placeholder.com/80" alt="Company Logo" class="company-logo"> -->
+                <div class="company-info">
+                    <div class="company-name">{{ recent_internship_data['company_name'] }}</div>
+                    <div class="company-description">
+                        {{ session["about_company"] }}
+                    </div>
+                    <!-- <a href="https://techinnovators.com" class="company-website" target="_blank">Visit Website</a> -->
+                </div>
+            </div>
+
+            <!-- Position and Stipend -->
+            <div class="position">{{ recent_internship_data['position'] }}</div>
+            <div class="stipend">Stipend: ₹{{ recent_internship_data['stipend'] }}/month</div>
+            <div class="details">
+                <span>Duration: {{ recent_internship_data['duration'] }} months</span>
+                <span>{{ recent_internship_data['work_model'] }}</span>
+            </div>
+
+            <!-- About the Role -->
+            <div class="description">
+                <h3>About the Role:</h3>
+                <p>
+                    {{recent_internship_data["description"]}}
+                </p>
+                <h3>Responsibilities:</h3>
+                <p>
+                    {{recent_internship_data["responsibilities"]}}
+                </p>
+            </div>
+
+            <!-- Skills Required -->
+            <div class="skills">
+                <h3>Skills Required</h3>
+                <ul>
+                {% for skill in recent_internship_data['required_skills'].split(",") %}
+                    <li> {{ skill }}</li>        
+                {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Application Deadline -->
+            <div class="application-deadline">
+                <strong>Application Deadline:</strong> {{ recent_internship_data['deadline'] }}
+            </div>
+
+            <!-- Actions (Apply, Save, Share) -->
+            <div class="actions">
+                <button class="apply-button"><a href="apply_internship?id={{recent_internship_data['internship_id']}}" style="text-decoration:none;color:white" >Apply Now</a></button>
+                <button  class="save-button"><a href="save_internship?id={{recent_internship_data['internship_id']}}" style="text-decoration:none;color:white" >Save</a></button>
+                <!-- <button class="share-button">Share</button> -->
+            </div>
+
+            <!-- Similar Internships -->
+            <!-- <div class="similar-internships">
+                <h2>Similar Internships</h2>
+                <div class="scroll-container">
+                    {% for internship in similar_data %}
+                        <a href="student_internship_details?company_name={{internship['company_name']}}?id={{internship['internship_id']}}" class="internship-card">
+                            <div class="company-name">{{internship["company_name"]}}</div>
+                            <div class="position">{{internship["position"]}}</div>
+                            <div class="stipend">Stipend: ₹{{internship["stipend"]}}/month</div>
+                            <div class="details">
+                                <span>Duration: {{internship["duration"]}}</span>
+                                <span>{{internship["work_model"]|title}}</span>
+                            </div>
+                        </a>
+                    {% endfor %}
+                    <a href="/internship-details" class="internship-card">
+                        <div class="company-name">Cloud Masters</div>
+                        <div class="position">Cloud Engineer Intern</div>
+                        <div class="stipend">Stipend: ₹35,000/month</div>
+                        <div class="details">
+                            <span>Duration: 6 months</span>
+                            <span>Hybrid</span>
+                        </div>
+                    </a>
+                    <a href="/internship-details" class="internship-card">
+                        <div class="company-name">UI/UX Pros</div>
+                        <div class="position">UI/UX Design Intern</div>
+                        <div class="stipend">Stipend: ₹30,000/month</div>
+                        <div class="details">
+                            <span>Duration: 4 months</span>
+                            <span>Remote</span>
+                        </div>
+                    </a>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</body>
+</html>

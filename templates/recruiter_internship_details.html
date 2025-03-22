@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Details</title>
+    <style>
+        /* Reuse the CSS from the provided code */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            overflow-y: hidden;
+        }
+
+        body {
+            overflow-x: hidden;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: #1a75ff;
+            border-radius: 4px;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            width: 100%;
+            height: 60px;
+            background-color: #1a75ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-title {
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-bar {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            width: 200px;
+            font-size: 14px;
+        }
+
+        .profile-circle {
+            width: 40px;
+            height: 40px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .profile-circle:hover {
+            border: 1px solid white;
+            font-size: 20px;
+        }
+
+        /* Content Styles */
+        .container {
+            /* width:900px; */
+            padding: 20px;
+            background-color: #F1F5F9;
+        }
+
+        .internship-details {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .company-overview {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .company-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .company-info {
+            flex: 1;
+        }
+
+        .company-name {
+            font-size: 25px;
+            font-weight: bold;
+            color: #1a75ff;
+            margin-bottom: 5px;
+        }
+
+        .company-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .company-website {
+            font-size: 14px;
+            color: #1a75ff;
+            text-decoration: none;
+        }
+
+        .company-website:hover {
+            text-decoration: underline;
+        }
+
+        .position {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .stipend {
+            font-size: 15px;
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+
+        .details {
+            font-size: 15px;
+            color: #666;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .requirements {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .skills {
+            margin-bottom: 20px;
+        }
+
+        .skills h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .skills ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skills li {
+            background: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .application-deadline {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .edit-button,
+        .delete-button {
+            background-color: #1a75ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .delete-button {
+            background-color: #ff4d4d;
+        }
+
+        .edit-button:hover,
+        .delete-button:hover {
+            opacity: 0.9;
+        }
+
+        /* Update Form */
+        .update-form {
+            display: none;
+            /* Hidden by default */
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .update-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .submit-btn {
+            background-color: #1a75ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            color: #1a75ff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #1a75ff;
+            color: white;
+        }
+
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .reject-button {
+            background-color: #ff4d4d;
+        }
+
+        .reject-button:hover {
+            background-color: #d43f3f;
+        }
+
+        a {
+            text-decoration: none;
+            color: #1a75ff;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-title">Compass <span style="font-size: small;">Navigate Your Future</span> </div>
+        <div class="navbar-right">
+            <input type="search" placeholder="Search internships..." class="search-bar">
+            <a href="#" class="profile-circle">{{session["recruiter_name"][0]}}</a>
+        </div>
+    </nav>
+
+    <!-- Internship Details -->
+    <div class="container">
+        <div class="internship-details">
+            <!-- Company Overview -->
+            <div class="company-overview">
+                <div class="company-info">
+                    <div class="company-name">{{session["company_name"]}}</div>
+                    <div class="company-description">
+                        {{session["about_company"]}}
+                    </div>
+                    <!-- <a href="https://techinnovators.com" class="company-website" target="_blank">Visit Website</a> -->
+                </div>
+            </div>
+
+            <!-- Position and Stipend -->
+            <div class="position">{{internship_data["position"]}}</div>
+            {%if internship_data["stipend"]==None%}
+            <div class="stipend">Stipend: Unpaid Internship</div>
+            {%else%}
+            <div class="stipend">Stipend: ₹{{internship_data["stipend"]}}/month</div>
+            {%endif%}
+            <div class="details">
+                <span>Duration: {{internship_data["duration"]}}</span>
+                <span>{{internship_data["work_model"]}}</span>
+            </div>
+
+            <!-- About the Role -->
+            <div class="description">
+                <h3>About the Role:</h3>
+                <p>
+                    {{internship_data["description"]}}
+                </p>
+                <h3>Responsibilities:</h3>
+                <p>
+                    {{internship_data["responsibilities"]}}
+                </p>
+            </div>
+
+            <!-- Skills Required -->
+            <div class="skills">
+                <h3>Skills Required</h3>
+                <ul>
+                    {%for skill in internship_data["required_skills"].split(",") %}
+                    <li>{{skill}}</li>
+                    {%endfor%}
+                </ul>
+            </div>
+
+            <!-- Application Deadline -->
+            <div class="application-deadline">
+                <strong>Application Deadline:</strong> {{internship_data["deadline"]}}
+            </div>
+
+            <!-- Actions (Edit, Delete) -->
+            <div class="actions">
+                <button class="edit-button" onclick="toggleUpdateForm()">Edit</button>
+                <button class="delete-button" href="delete_internship"><a style="text-decoration:none;color:white" href="delete_internship?id={{internship_data['internship_id']}}">Delete</a></button>
+            </div>
+
+            <!-- Update Form -->
+            <div class="update-form" id="updateForm">
+                <h3>Update Internship Details</h3>
+                <form action="/update_internship" method="post">
+                    <input type="hidden" name="id" value="{{ internship_data['internship_id'] }}">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="position">Position</label>
+                            <input type="text" id="position" name="position" value="{{internship_data['position']}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="stipend">Stipend (₹/month)</label>
+                            <input type="text" name="stipend" value="{{internship_data['stipend']}}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="duration">Duration (months)</label>
+                            <input type="number" name="duration" value="{{internship_data['duration'][0]|int}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="work-model">Work Model</label>
+                            <select name="work-model">
+                                <option value="remote">Remote</option>
+                                <option value="hybrid">Hybrid</option>
+                                <option value="onsite">On-site</option>
+                                <option value="onsite" selected>{{internship_data['work_model']}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea
+                            name="description">{{internship_data['description']}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="skills">Skills Required</label>
+                        <textarea
+                            name="skills">{{internship_data['required_skills']}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="deadline">Application Deadline</label>
+                        <input type="date" name="deadline" value="{{internship_data['deadline']}}">
+                    </div>
+                    <button type="submit" class="submit-btn">Update Internship</button>
+                </form>
+            </div>
+
+            <!-- Applicants Section -->
+
+            <div class="container">
+                <h2>Applicants</h2>
+                <table border="1" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Skills</th>
+                            <th>Institute</th>
+                            <th>Status</th>
+                            <th>Accept</th>
+                            <th>Reject</th>
+                            <th>View Profile</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for applicant in applied_students%}
+                        <tr>
+                            <td>{{ applicant["student_name"]}}</td>
+                            <td>{{ applicant["skills"]}}</td>
+                            <td>{{ applicant["institution"]}}</td>
+                            {%if applicant["status"]=='accepted'%}
+                            <td style="color: green;">{{ applicant["status"]}}</td>
+                            {%elif applicant["status"]=='rejected'%}
+                            <td style="color: red;">{{ applicant["status"]}}</td>
+                            {%else%}
+                            <td style="color:blue;">{{ applicant["status"]}}</td>
+                            {%endif%}
+                            <td>
+                                <button class="accept-button" style="background-color: green;">
+                                    <a style="text-decoration:none;color:white" 
+                                    href="accept_applicant?student_id={{ applicant['student_id'] }}&s_name={{applicant['student_name']}}&internship_id={{ internship_data['internship_id'] }}&email={{ applicant['email'] }}">
+                                        Accept
+                                    </a>
+                                </button>
+                                
+                            </td>
+                            <td>
+                                <button class="reject-button">
+                                    <a style="text-decoration:none;color:white" 
+                                    href="reject_applicant?student_id={{ applicant['student_id'] }}&s_name={{applicant['student_name']}}&internship_id={{ internship_data['internship_id'] }}&email={{ applicant['email'] }}">
+                                        Reject
+                                    </a>
+                                </button>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('view_profile', applicant_id=applicant['id']) }}">View Profile</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle the update form
+        function toggleUpdateForm() {
+            const updateForm = document.getElementById('updateForm');
+            updateForm.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
