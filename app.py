@@ -2,17 +2,22 @@ from flask import Flask, request, render_template, redirect, url_for, flash, ses
 import mysql.connector as my
 import smtplib
 from email.message import EmailMessage
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"  # Required for session & flash messages
+app.secret_key = os.environ.get("SECRET_KEY", "default_secret_key")  # Required for session & flash messages
 
 # Database connection
 mydb = my.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="compass"
+    host=os.environ.get("DB_HOST", "localhost"),
+    user=os.environ.get("DB_USER", "root"),
+    password=os.environ.get("DB_PASSWORD", ""),
+    database=os.environ.get("DB_NAME", "compass")
 )
 
 mycursor = mydb.cursor(dictionary=True)  # Ensure it's in dictionary mode
@@ -454,17 +459,17 @@ def accept_applicant():
         mydb.commit()
 
         #smtp
-        sender="compass.internships@gmail.com"
-        receiver=email
-        sender_password="sxlt gfnf xfoh zevm"
+        sender = os.environ.get("EMAIL_SENDER")
+        receiver = email
+        sender_password = os.environ.get("EMAIL_PASSWORD")
 
         message = EmailMessage()
-        message["From"]= sender
-        message["To"]= receiver
-        message["Subject"]="Your Internship Application Has Been Accepted! 🎉"
-        mycursor.execute("select * from internships where internship_id=%s",(internship_id,))
-        internship_deatil=mycursor.fetchone()
-        content=f"""Dear {student_name},
+        message["From"] = sender
+        message["To"] = receiver
+        message["Subject"] = "Your Internship Application Has Been Accepted! 🎉"
+        mycursor.execute("select * from internships where internship_id=%s", (internship_id,))
+        internship_deatil = mycursor.fetchone()
+        content = f"""Dear {student_name},
 
 We are pleased to inform you that your application for the {internship_deatil["position"]} at {session['company_name']} has been accepted! 🎉
 
@@ -480,8 +485,8 @@ Best regards,
 {session['company_name']}"""
         message.set_content(content)
 
-        with smtplib.SMTP_SSL("smtp.gmail.com",465) as server:
-            server.login(sender,sender_password)
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(sender, sender_password)
             server.send_message(message)
 
         return redirect(url_for('recruiter_dashboard', id=internship_id))
@@ -509,17 +514,17 @@ def reject_applicant():
         mydb.commit()
 
         #smtp
-        sender="compass.internships@gmail.com"
-        receiver=email
-        sender_password="sxlt gfnf xfoh zevm"
+        sender = os.environ.get("EMAIL_SENDER")
+        receiver = email
+        sender_password = os.environ.get("EMAIL_PASSWORD")
 
         message = EmailMessage()
-        message["From"]= sender
-        message["To"]= receiver
-        message["Subject"]=" Update on Your Internship Application"
-        mycursor.execute("select * from internships where internship_id=%s",(internship_id,))
-        internship_deatil=mycursor.fetchone()
-        content=f"""Dear {student_name},
+        message["From"] = sender
+        message["To"] = receiver
+        message["Subject"] = " Update on Your Internship Application"
+        mycursor.execute("select * from internships where internship_id=%s", (internship_id,))
+        internship_deatil = mycursor.fetchone()
+        content = f"""Dear {student_name},
 
 Thank you for applying for the {internship_deatil['position']} at {session['company_name']}. We appreciate the time and effort you put into your application.
 
@@ -532,8 +537,8 @@ Best regards,
 {session['company_name']}"""
         message.set_content(content)
 
-        with smtplib.SMTP_SSL("smtp.gmail.com",465) as server:
-            server.login(sender,sender_password)
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(sender, sender_password)
             server.send_message(message)
 
         return redirect(url_for('recruiter_dashboard', id=internship_id))

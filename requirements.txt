@@ -1,0 +1,5 @@
+# requirements.txt for Compass project
+# Add your project dependencies below
+Flask
+python-dotenv
+# Add other dependencies as needed

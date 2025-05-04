@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database dumps
+*.sql
+
+# VSCode
+.vscode/
+
+# Jupyter Notebooks
+*.ipynb
+
+# Others
+*.log
