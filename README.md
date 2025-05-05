@@ -1,4 +1,4 @@
-# Compass
+# Internship Portal
 
 ## Project Description
 Compass is an Internship Activity Portal designed to streamline the management and tracking of internship activities for students, mentors, and administrators. It provides a centralized platform for logging activities, monitoring progress, and facilitating communication between all stakeholders.
